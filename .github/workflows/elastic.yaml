@@ -1,0 +1,75 @@
+name: elastic
+on:
+  workflow_dispatch:
+   inputs:
+        CLUSTER_NAME:
+            description: 'CLUSTER_NAME'
+            required: true
+            default: 'zerok-c2s-poc'
+        GKE_ZONE:
+            description: 'GKE_ZONE'
+            required: true
+            default: 'us-west1-b'
+        DEPLOYMENT_NAME:
+            description: 'DEPLOYMENT_NAME'
+            required: true
+            default: 'redis'
+        NAMESPACE:
+            description: 'NAMESPACE'
+            required: true
+            default: 'redis'
+        CONFIG:
+            type: choice
+            description: CONFIG
+            options:
+            - single
+            - shared
+            - dedicatedmaster
+env:
+  GKE_SA_KEY: ${{ secrets.GKE_SA_KEY }}
+  CLUSTER_NAME: ${{ github.event.inputs.CLUSTER_NAME }}
+  GKE_ZONE : ${{ github.event.inputs.GKE_ZONE }}
+  DEPLOYMENT_NAME:  ${{ github.event.inputs.DEPLOYMENT_NAME }}
+  NAMESPACE:  ${{ github.event.inputs.NAMESPACE }}
+  CONFIG: ${{ github.event.inputs.CONFIG }}
+  
+jobs:
+  setup:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3        
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '${{ env.GKE_SA_KEY }}'
+        
+      - uses: google-github-actions/setup-gcloud@v0
+        with:
+          version: latest
+          export_default_credentials: true
+
+
+      - id: 'get-credentials'
+        uses: 'google-github-actions/get-gke-credentials@v1'
+        with:
+           cluster_name: '${{ env.CLUSTER_NAME }}'
+           location: '${{ env.GKE_ZONE }}'
+   
+      
+      - name: Set up tools
+        run: |-
+           curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+           chmod 700 get_helm.sh
+           ./get_helm.sh
+           gcloud components install kubectl
+          
+      - name: setup operator
+        run: |-
+             kubectl create -f https://download.elastic.co/downloads/eck/2.8.0/crds.yaml
+             kubectl apply -f https://download.elastic.co/downloads/eck/2.8.0/operator.yaml
+
+      - name: deploy
+        run: |-
+

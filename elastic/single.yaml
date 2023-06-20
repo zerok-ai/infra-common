@@ -37,3 +37,28 @@ spec:
     tls:
       selfSignedCertificate:
         disabled: true
+---
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: app-kibana
+spec:
+  version: 8.6.2 
+  count: 1
+  elasticsearchRef:
+    name: "app-elastic"
+  podTemplate:
+    metadata:
+      labels:
+        env: staging
+    spec:
+      containers:
+      - name: kibana
+        resources:
+          limits:
+            memory: 1Gi
+            cpu: 1
+  http:
+    tls:
+      selfSignedCertificate:
+        disabled: true

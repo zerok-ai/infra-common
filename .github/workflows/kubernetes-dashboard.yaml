@@ -54,7 +54,7 @@ jobs:
            ./get_helm.sh
            gcloud components install kubectl
            sudo apt-get update
-           sudo apt-get install gettext
+           sudo apt-get install gettext-base
           
 
 

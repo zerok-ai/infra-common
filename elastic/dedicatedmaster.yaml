@@ -1,7 +1,6 @@
 kind: Elasticsearch
 metadata:
   name: app-elastic
-  namespace: elastic
 spec:
   version: 8.8.1
   nodeSets:

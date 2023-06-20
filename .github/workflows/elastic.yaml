@@ -72,4 +72,6 @@ jobs:
 
       - name: deploy
         run: |-
+             kubectl create ns $NAMESPACE --dry-run=client -o yaml | kubectl apply -f -
+             kubectl -n $NAMESPACE apply -f elastic/$CONFIG.yaml
 

@@ -58,5 +58,5 @@ jobs:
           
       - name: Deploy
         run: |-
-             helm install $DEPLOYMENT_NAME oci://registry-1.docker.io/bitnamicharts/redis -f values.yaml               --create-namespace \
+             helm install $DEPLOYMENT_NAME oci://registry-1.docker.io/bitnamicharts/redis -f redis/values.yaml               --create-namespace \
               --create-namespace --namespace $NAMESPACE 

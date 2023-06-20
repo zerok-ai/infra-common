@@ -64,5 +64,5 @@ jobs:
           
       - name: Deploy
         run: |-
-             helm install  upgrade $DEPLOYMENT_NAME $CHART -f redis/$CONFIG.yaml \
+             helm install  upgrade $DEPLOYMENT_NAME $CHART -f postgres/$CONFIG.yaml \
               --create-namespace --namespace $NAMESPACE 

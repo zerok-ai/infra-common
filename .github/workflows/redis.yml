@@ -13,9 +13,11 @@ on:
         DEPLOYMENT_NAME:
             description: 'DEPLOYMENT_NAME'
             required: true
+            default: 'redis'
         NAMESPACE:
             description: 'NAMESPACE'
             required: true
+            default: 'redis'
         CONFIG:
             description: 'CONFIG'
             required: true

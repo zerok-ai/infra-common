@@ -53,6 +53,8 @@ jobs:
            chmod 700 get_helm.sh
            ./get_helm.sh
            gcloud components install kubectl
+           sudo apt-get update
+           sudo apt-get install gettext
           
 
 

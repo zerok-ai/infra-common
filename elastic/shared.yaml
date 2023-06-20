@@ -1,0 +1,39 @@
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: app-elastic
+spec:
+  version: 8.6.2
+  nodeSets:
+  - name: default
+    count: 3
+    podTemplate:
+          spec:
+            containers:
+            - name: elasticsearch
+              env:
+              - name: ES_JAVA_OPTS
+                value: -Xms3g -Xmx3g
+              resources:
+                requests:
+                  memory: 5Gi
+                  cpu: 1
+                limits:
+                  memory: 5Gi
+    config:
+      node.roles: ["master", "data", "ingest", "remote_cluster_client"]
+      node.store.allow_mmap: false
+    volumeClaimTemplates:
+    - metadata:
+        name: elasticsearch-data
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
+        storageClassName: pd-balanced-xfs
+  http:
+    tls:
+      selfSignedCertificate:
+        disabled: true

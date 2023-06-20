@@ -26,6 +26,6 @@ master:
     maxmemory-policy volatile-lru
 # Disable is Prometheus is not installed
 metrics:
-  enabled: true
+  enabled: false
   serviceMonitor:
-    enabled: true
+    enabled: false

@@ -5,7 +5,12 @@ metadata:
   namespace: kubernetes-dashboard
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    cert-manager.io/cluster-issuer: letsencrypt-cluster-issuer
 spec:
+  tls:
+    - hosts:
+        - ${INGRESSDNS}
+      secretName: kubernetes-dashboard
   rules:
     - host: ${INGRESSDNS}
       http:

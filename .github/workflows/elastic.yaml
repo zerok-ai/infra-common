@@ -22,7 +22,6 @@ on:
             type: choice
             description: CONFIG
             options:
-            - single
             - shared
             - dedicatedmaster
 env:

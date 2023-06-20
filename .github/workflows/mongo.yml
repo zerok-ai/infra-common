@@ -19,9 +19,11 @@ on:
             required: true
             default: 'mongodb'
         CONFIG:
-            description: 'CONFIG'
-            required: true
-            default: 'standalone'
+            type: choice
+            description: CONFIG
+            options:
+            - standalone
+            - replicaset
 env:
   GKE_SA_KEY: ${{ secrets.GKE_SA_KEY }}
   CLUSTER_NAME: ${{ github.event.inputs.CLUSTER_NAME }}
@@ -64,5 +66,5 @@ jobs:
           
       - name: Deploy
         run: |-
-             helm install  $DEPLOYMENT_NAME $CHART -f postgres/$CONFIG.yaml \
+             helm install  $DEPLOYMENT_NAME $CHART -f mongodb/$CONFIG.yaml \
               --create-namespace --namespace $NAMESPACE 

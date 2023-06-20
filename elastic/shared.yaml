@@ -3,7 +3,7 @@ kind: Elasticsearch
 metadata:
   name: app-elastic
 spec:
-  version: 8.6.2
+  version: 8.8.1
   nodeSets:
   - name: default
     count: 3
@@ -43,7 +43,7 @@ kind: Kibana
 metadata:
   name: app-kibana
 spec:
-  version: 8.6.2 
+  version: 8.8.1
   count: 1
   elasticsearchRef:
     name: "app-elastic"

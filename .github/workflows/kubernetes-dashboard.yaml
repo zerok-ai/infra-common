@@ -10,11 +10,17 @@ on:
             description: 'GKE_ZONE'
             required: true
             default: 'us-west1-b'
+        ZK_DOMAIN:
+            description: 'ZK_DOMAIN'
+            required: true
+            default: 'getanton.com'
 
 env:
   GKE_SA_KEY: ${{ secrets.GKE_SA_KEY }}
   CLUSTER_NAME: ${{ github.event.inputs.CLUSTER_NAME }}
   GKE_ZONE : ${{ github.event.inputs.GKE_ZONE }}
+  ZK_DOMAIN: ${{ github.event.inputs.ZK_DOMAIN }}
+  INGRESSDNS: k8s.${{ github.event.inputs.CLUSTER_NAME }}.${{ github.event.inputs.ZK_DOMAIN }}
   
 jobs:
   setup:
@@ -53,4 +59,4 @@ jobs:
       - name: deploy
         run: |-
              kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml  || true
-             kubectl -n $kubernetes-dashboard apply -f kubernetes-dashboard/ingress.yaml  || true
+             envsubst < kubernetes-dashboard/ingress.yaml.tmpl | kubectl apply -f -

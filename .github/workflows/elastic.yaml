@@ -67,11 +67,11 @@ jobs:
           
       - name: setup operator
         run: |-
-             kubectl create -f https://download.elastic.co/downloads/eck/2.8.0/crds.yaml
-             kubectl apply -f https://download.elastic.co/downloads/eck/2.8.0/operator.yaml
+             kubectl create -f https://download.elastic.co/downloads/eck/2.8.0/crds.yaml || true
+             kubectl apply -f https://download.elastic.co/downloads/eck/2.8.0/operator.yaml || true
 
       - name: deploy
         run: |-
-             kubectl create ns $NAMESPACE --dry-run=client -o yaml | kubectl apply -f -
-             kubectl -n $NAMESPACE apply -f elastic/$CONFIG.yaml
+             kubectl create ns $NAMESPACE --dry-run=client -o yaml | kubectl apply -f -  || true
+             kubectl -n $NAMESPACE apply -f elastic/$CONFIG.yaml  || true
 

@@ -26,6 +26,8 @@ env:
   GKE_ZONE : ${{ github.event.inputs.GKE_ZONE }}
   DEPLOYMENT_NAME:  ${{ github.event.inputs.DEPLOYMENT_NAME }}
   NAMESPACE:  ${{ github.event.inputs.NAMESPACE }}
+  CONFIG: ${{ github.event.inputs.CONFIG }}
+  CHART: "oci://registry-1.docker.io/bitnamicharts/redis"
 jobs:
   setup:
     runs-on: self-hosted
@@ -56,11 +58,9 @@ jobs:
            curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
            chmod 700 get_helm.sh
            ./get_helm.sh
-           sudo apt-get update
-           sudo apt-get install gettext-base
            gcloud components install kubectl
           
       - name: Deploy
         run: |-
-             helm install $DEPLOYMENT_NAME oci://registry-1.docker.io/bitnamicharts/redis -f redis/$CONFIG.yaml \
+             helm install $DEPLOYMENT_NAME $CHART -f redis/$CONFIG.yaml \
               --create-namespace --namespace $NAMESPACE 

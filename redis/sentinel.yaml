@@ -1,0 +1,26 @@
+auth:
+  enabled: false
+  password: ""
+metrics:
+  enabled: false 
+  serviceMonitor:
+    enabled: false
+master:
+  persistence:
+    enabled: true
+replica:
+  persistence:
+    enabled: true     
+  resources:
+    limits: 
+      cpu: 1
+      memory: 1Gi
+sentinel:
+  enabled: true
+commonConfiguration: |-
+  # Enable AOF https://redis.io/topics/persistence#append-only-file
+  appendonly yes
+  maxmemory-policy volatile-ttl
+  maxmemory  800M
+  # Disable RDB persistence, AOF persistence already enabled.
+  save ""

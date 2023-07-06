@@ -27,11 +27,11 @@ global:
     postgresql.conf:
       logging_collector: true
     auth:
-      postgresPassword: ""
+      postgresPassword: "aSbkTm3DiB"
       username: ""
       password: ""
       database: ""
-      existingSecret: ""
+      existingSecret: "postgres-postgresql"
       secretKeys:
         adminPasswordKey: ""
         userPasswordKey: ""

@@ -1,6 +1,6 @@
 auth:
   enabled: false
-  password: ""
+  password: "hello01"
 metrics:
   enabled: false 
   serviceMonitor:

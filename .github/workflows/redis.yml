@@ -44,27 +44,13 @@ jobs:
         with:
           credentials_json: '${{ env.GKE_SA_KEY }}'
         
-#      - uses: google-github-actions/setup-gcloud@v0
-#        with:
-#          version: latest
-#          export_default_credentials: true
-
-
       - id: 'get-credentials'
         uses: 'google-github-actions/get-gke-credentials@v1'
         with:
            cluster_name: '${{ env.CLUSTER_NAME }}'
            location: '${{ env.GKE_ZONE }}'
    
-      
-#      - name: Set up tools
-#        run: |-
-#           curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-#           chmod 700 get_helm.sh
-#           ./get_helm.sh
-#           gcloud components install kubectl
-          
       - name: Deploy
         run: |-
-             helm install $DEPLOYMENT_NAME $CHART -f redis/$CONFIG.yaml \
+            helm install $DEPLOYMENT_NAME $CHART -f redis/$CONFIG.yaml \
               --create-namespace --namespace $NAMESPACE 
